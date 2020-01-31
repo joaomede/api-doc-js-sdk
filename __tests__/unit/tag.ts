@@ -26,4 +26,13 @@ export const tagTest = () => describe('Tag Test', () => {
       done(error)
     }
   })
+
+  test('Find all tag by User ID and Api ID', async (done) => {
+    try {
+      await apiDoc.findAllTagByUserIdAndApiId(1, 1)
+      done()
+    } catch (error) {
+      done(error)
+    }
+  })
 })

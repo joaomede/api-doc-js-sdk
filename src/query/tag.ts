@@ -40,4 +40,18 @@ export class Tag extends Api {
       throw new Error('Erro ao tentar atualizar a tag')
     }
   }
+
+  /**
+   * @description Find all Tags by User ID and Api ID
+   * @param apiId Api ID
+   * @param userId User ID
+   */
+  public async findAllTagByUserIdAndApiId (apiId: number, userId: number): Promise<I.Tag[]> {
+    try {
+      const tags: I.Tag[] = await this.api('tags').where({ userIdFk: userId, apiIdFk: apiId })
+      return tags
+    } catch (error) {
+      throw new Error('Erro ao tentar atualizar a tag')
+    }
+  }
 }
