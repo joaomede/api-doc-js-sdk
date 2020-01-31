@@ -60,4 +60,29 @@ export class Path extends Tag {
     }
   }
 
+  /**
+   * @description Update a Path
+   * @param userId User ID
+   * @param pathId Path ID
+   * @param form Form contains: methodType, pathName, descriptionVerb, path, parameter,
+   * headersValue, bodyValue and data
+   */
+  public async updatePath (userId: number, pathId: number, form: any): Promise<void> {
+    const newVerb = {
+      methodType: form.methodType,
+      pathName: form.pathName,
+      descriptionVerb: form.descriptionVerb,
+      path: form.path,
+      parameter: form.parameter,
+      headersValue: form.headersValue,
+      bodyValue: form.bodyValue,
+      data: form.data
+    }
+
+    try {
+      await this.api('paths').where({ id: pathId, userIdFk: userId }).update(newVerb)
+    } catch (error) {
+      throw new Error('Erro ao tentar atualizar o paths')
+    }
+  }
 }
