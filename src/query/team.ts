@@ -3,6 +3,49 @@ import * as I from '../index'
 import * as _ from 'lodash'
 export class Team extends Response {
   /**
+   * @description Add a member to the team
+   * @param userId User ID
+   * @param form Form contains: "teamIdFk" and "email"
+   */
+  public async addMember (userId: number, form: any): Promise<void> {
+    try {
+      const team: I.Team[] = await this.api('teams').select().where({
+        id: form.teamIdFk,
+        managerIdFk: userId
+      })
+      const user: I.User[] = await this.api('users').select().where({ email: form.email })
+
+      const rules: I.TeamRules[] = await this.api('team_rules').select().where({
+        teamIdFk: form.teamIdFk,
+        userIdFk: user[0].id
+      })
+
+      if (_.isNil(team)) {
+        throw new Error('O time informado não existe')
+      }
+
+      if (_.isNil(user)) {
+        throw new Error('O email informado não pertence a nenhum usuário')
+      }
+
+      if (user[0].id !== userId) {
+        throw new Error('Não é permitido adicionar você mesmo')
+      }
+
+      if (!_.isNil(rules)) {
+        throw new Error('Esse usuário já está no time')
+      }
+
+      await this.api('team_rules').insert({
+        teamIdFk: form.teamIdFk,
+        userIdFk: user[0].id
+      })
+    } catch (error) {
+      throw new Error(error.message)
+    }
+  }
+
+  /**
    * @description Remove a member from team
    * @param rulesId Rules ID
    */
