@@ -2,6 +2,20 @@ import { Response } from './response'
 import * as I from '../index'
 import * as _ from 'lodash'
 export class Team extends Response {
+
+  /**
+   * @description Delete a team
+   * @param userId User ID "owner"
+   * @param teamId Team ID
+   */
+  public async deleteTeam (userId: number, teamId: number): Promise<void> {
+    try {
+      await this.api('teams').where({ id: teamId, managerIdFk: userId }).del()
+    } catch (error) {
+      throw new Error('Erro ao tenta remover equipe')
+    }
+  }
+
   /**
    * @description Add a member to the team
    * @param userId User ID
