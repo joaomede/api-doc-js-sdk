@@ -7,6 +7,7 @@ export class Team extends Response {
    * @param userId User ID
    * @param form Form contains: "teamName" and "apiIdFk"
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async createTeam (userId: number, form: any): Promise<string> {
     try {
       const api: I.Api[] = await this.api('api')
@@ -38,6 +39,7 @@ export class Team extends Response {
    * @param teamId Team ID
    * @param form Form contains: "teamName"
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async updateTeam (userId: number, teamId: number, form: any): Promise<I.Team> {
     try {
       const team = await this.api('teams').select().where({ id: teamId })
@@ -90,6 +92,7 @@ export class Team extends Response {
    * @param userId User ID
    * @param form Form contains: "teamIdFk" and "email"
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async addMember (userId: number, form: any): Promise<void> {
     try {
       const team: I.Team[] = await this.api('teams').select().where({
@@ -145,6 +148,7 @@ export class Team extends Response {
    * @param userId User ID
    * @param teamIdFk Team ID
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async listAllMembers (userId: number, teamIdFk: number): Promise<any> {
     try {
       const team: I.Team[] = await this.api('teams')
