@@ -59,4 +59,34 @@ export class Response extends Path {
       throw new Error('Erro ao tentar carregar todos os códigos respostas')
     }
   }
+
+  /**
+   * @description Update Response
+   * @param userId User ID
+   * @param responseId Resposne ID
+   * @param form Form contains: typeCode and responseModel
+   */
+  public async updateResponse (userId: number, responseId: number, form: any): Promise<void> {
+    if (_.isNil(userId)) {
+      throw new Error('Usuário referência não identificado')
+    }
+
+    if (_.isNil(responseId)) {
+      throw new Error('Resposta referência não identificada')
+    }
+
+    if (_.isNil(form)) {
+      throw new Error('Formulário da resposta não identificado')
+    }
+
+    try {
+      const newCode = {
+        typeCode: form.typeCode,
+        responseModel: form.responseModel
+      }
+      await this.api('responses').where({ id: responseId, userIdFk: userId }).update(newCode)
+    } catch (error) {
+      throw new Error('Erro ao tentar atualizar o código resposta')
+    }
+  }
 }
