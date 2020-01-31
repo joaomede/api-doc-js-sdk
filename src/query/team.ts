@@ -228,4 +228,23 @@ export class Team extends Response {
       throw new Error('Erro ao tentar expandir')
     }
   }
+
+  /**
+   * @description Team list that the applicant owns
+   * @param userId User ID "Owner"
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public async listTeamsOwner (userId: number): Promise<any> {
+    try {
+      const teamsAmMember = await this.api('team_rules')
+        .where({ 'team_rules.userIdFk': userId })
+        .join('teams', 'teams.id', 'team_rules.teamIdFk')
+        .join('api', 'api.id', 'teams.apiIdFk')
+        .join('users', 'teams.managerIdFk', 'users.id')
+        .select('team_rules.id', 'teams.teamName', 'api.apiName', 'users.name')
+      return teamsAmMember
+    } catch (error) {
+      throw new Error('Erro ao carregar a lista de Apis')
+    }
+  }
 }
