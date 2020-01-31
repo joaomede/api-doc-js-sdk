@@ -17,9 +17,9 @@ export const apiTest = () => describe('Api test', () => {
         userIdFk: 1, // not-required
       }
 
-      await apiDoc.createNewApiDoc(apiForm, 1) // create a public with id 1
+      await apiDoc.createNewApiDoc(1, apiForm) // create a public with id 1
       apiForm.isPublic = false // create a private with id 2
-      await apiDoc.createNewApiDoc(apiForm, 1) // create a two document
+      await apiDoc.createNewApiDoc(1, apiForm) // create a two document
       done()
     } catch (error) {
       done(error)
@@ -41,7 +41,7 @@ export const apiTest = () => describe('Api test', () => {
         updated_at: new Date(), // not-required
         userIdFk: 1, // not-required
       }
-      await apiDoc.updateApi(1, updateForm, 1)
+      await apiDoc.updateApi(1, 1, updateForm)
       done()
     } catch (error) {
       done(error)
@@ -70,7 +70,7 @@ export const apiTest = () => describe('Api test', () => {
   test('Get One Api Document', async (done) => {
     try {
       await apiDoc.getOneApi(1, 1) // get a public
-      await apiDoc.getOneApi(2, 1) // get a private
+      await apiDoc.getOneApi(1, 2) // get a private
       done()
     } catch (error) {
       done(error)
@@ -79,7 +79,7 @@ export const apiTest = () => describe('Api test', () => {
 
   test('Get Delete One Api Document', async (done) => {
     try {
-      await apiDoc.deleteApi(2, 1) // delete a private example test
+      await apiDoc.deleteApi(1, 2) // delete a private example test
       done()
     } catch (error) {
       done(error)

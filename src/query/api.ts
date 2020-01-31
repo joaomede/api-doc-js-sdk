@@ -4,10 +4,10 @@ import * as I from '../index'
 export class Api extends Auth {
   /**
    * @description Create a new API Documentation
-   * @param apiForm Form for new API
    * @param userId User ID
+   * @param apiForm Form for new API
    */
-  public async createNewApiDoc (apiForm: I.Api, userId: number): Promise<void> {
+  public async createNewApiDoc (userId: number, apiForm: I.Api): Promise<void> {
     try {
       await this.api('api').insert({
         apiName: apiForm.apiName,
@@ -26,11 +26,11 @@ export class Api extends Auth {
 
   /**
    * @description Updates an existing api
+   * @param userId User ID
    * @param id Api ID
    * @param newApi Api update form
-   * @param userId User ID
    */
-  public async updateApi (id: number, newApi: I.Api, userId: number): Promise<void> {
+  public async updateApi (userId: number, id: number, newApi: I.Api): Promise<void> {
     try {
       const api = {
         apiName: newApi.apiName,
@@ -52,9 +52,9 @@ export class Api extends Auth {
    * @description Get All Api docs by User
    * @param userId User ID
    */
-  public async getAllApiByUser (userId: number): Promise<string[] | number[]> {
+  public async getAllApiByUser (userId: number): Promise<I.Api[]> {
     try {
-      const allApi = await this.api('api').select().where({ userIdFk: userId })
+      const allApi: I.Api[] = await this.api('api').select().where({ userIdFk: userId })
       return allApi
     } catch (error) {
       throw new Error('Erro ao tentar listar as documentações')
@@ -66,9 +66,9 @@ export class Api extends Auth {
    * @param userId User ID
    * @param isPublic State of visibility: true | false
    */
-  public async getAllApiByUserAndVisibility (userId: number, isPublic: boolean): Promise<string[] | number[]> {
+  public async getAllApiByUserAndVisibility (userId: number, isPublic: boolean): Promise<I.Api[]> {
     try {
-      const allApi = await this.api('api').select().where({ userIdFk: userId, isPublic: isPublic })
+      const allApi: I.Api[] = await this.api('api').select().where({ userIdFk: userId, isPublic: isPublic })
       return allApi
     } catch (error) {
       throw new Error('Erro ao tentar listar as documentações')
@@ -77,10 +77,10 @@ export class Api extends Auth {
 
   /**
    * @description Get one API doc
-   * @param id API ID
    * @param userId User ID
+   * @param id API ID
    */
-  public async getOneApi (id: number, userId: number): Promise<I.Api> {
+  public async getOneApi (userId: number, id: number): Promise<I.Api> {
     try {
       const api = await this.api('api').select().where({ id: id, userIdFk: userId })
       return api[0]
@@ -91,10 +91,10 @@ export class Api extends Auth {
 
   /**
    * @description Delete one API
-   * @param id Api ID
    * @param userId User ID
+   * @param id Api ID
    */
-  public async deleteApi (id: number, userId: number): Promise<void> {
+  public async deleteApi (userId: number, id: number): Promise<void> {
     try {
       await this.api('api').where({ id: id, userIdFk: userId }).del()
     } catch (error) {
@@ -120,10 +120,10 @@ export class Api extends Auth {
 
   /**
    * @description Get a Api and all Tags related
-   * @param apiId API ID
    * @param userId User ID
+   * @param apiId API ID
    */
-  public async getApiAndTags (apiId: number, userId: number): Promise<I.Api> {
+  public async getApiAndTags (userId: number, apiId: number): Promise<I.Api> {
     try {
       const api = await this.api('api').where({ id: apiId })
       const tags = await this.api('tags').where({ apiIdFk: apiId })
