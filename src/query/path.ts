@@ -85,4 +85,20 @@ export class Path extends Tag {
       throw new Error('Erro ao tentar atualizar o paths')
     }
   }
+
+  /**
+   * @description Delete a path
+   * @param userId User ID
+   * @param pathId Path ID
+   */
+  public async deletePath (userId: number, pathId: number): Promise<void> {
+    if (_.isNil(pathId)) {
+      throw new Error('Não foi identificado a referência do Path')
+    }
+    try {
+      await this.api('paths').where({ id: pathId, userIdFk: userId }).del()
+    } catch (error) {
+      throw new Error('Erro ao tentar apagar verbo')
+    }
+  }
 }
