@@ -197,4 +197,35 @@ export class Team extends Response {
     }
   }
 
+  /**
+   * @description Get Paths with Response - Team Method
+   * @param userId User ID
+   * @param tagId Tag ID
+   * @param ruleId Rule ID
+   */
+  public async getPathAndResponsesTeam (userId: number, tagId: number, ruleId: number): Promise<void> {
+    const rules = await this.api('team_rules')
+      .where({ 'team_rules.id': ruleId, userIdFk: userId })
+      .join('teams', 'teams.id', 'team_rules.teamIdFk')
+      .select('teams.apiIdFk')
+
+    try {
+      if (rules.length !== 0) {
+        const verbAndCodes = await this.populate(this.knex, 'paths')
+          .find({ tagsIdFk: tagId })
+          .populate('responses', 'pathsIdFk', 'responses')
+          .exec()
+
+        if (verbAndCodes.length === 0) {
+          throw new Error('Não há verbos disponíveis')
+        } else {
+          return verbAndCodes
+        }
+      } else {
+        throw new Error('A equipe informada foi encontrada ou você não faz parte')
+      }
+    } catch (error) {
+      throw new Error('Erro ao tentar expandir')
+    }
+  }
 }
