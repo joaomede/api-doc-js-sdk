@@ -42,4 +42,22 @@ export class Path extends Tag {
       throw new Error('Erro ao tentar crar novo Path')
     }
   }
+
+  /**
+   * @description Get all paths by ID and User ID
+   * @param userId User ID
+   * @param tagId Tag ID
+   */
+  public async getAllPathByIdAndUserId (userId: number, tagId: number): Promise<I.Path[]> {
+    if (_.isNil(tagId)) {
+      throw new Error('Não foi identificado o path relacionado')
+    }
+    try {
+      const path: I.Path[] = await this.api('paths').where({ userIdFk: userId, tagsIdFk: tagId })
+      return path
+    } catch (error) {
+      throw new Error('Erro ao tentar carregar todos os Paths')
+    }
+  }
+
 }
