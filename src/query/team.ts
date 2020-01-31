@@ -247,4 +247,23 @@ export class Team extends Response {
       throw new Error('Erro ao carregar a lista de Apis')
     }
   }
+
+  /**
+   * @description Exit Team, "don't need to own"
+   * @param userId User ID
+   * @param ruleId Rule ID
+   */
+  public async exitTeam (userId: number, ruleId: number): Promise<void> {
+    try {
+      const result = await this.api('team_rules').where({ id: ruleId, userIdFk: userId })
+
+      if (result.length !== 0) {
+        await this.api('team_rules').where({ id: ruleId, userIdFk: userId }).del()
+      } else {
+        throw new Error('Erro ao tentar sair desta equipe')
+      }
+    } catch (error) {
+      throw new Error('Erro ao tentar sair da equipe')
+    }
+  }
 }
