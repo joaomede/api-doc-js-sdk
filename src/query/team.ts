@@ -166,4 +166,35 @@ export class Team extends Response {
       throw new Error(error.message)
     }
   }
+
+  /**
+   * @description Get Api with Tags - Team Method
+   * @param userId User ID
+   * @param ruleId Rule ID
+   */
+  public async getApiAndTagsTeam (userId: number, ruleId: number): Promise<I.Api[]> {
+    const rules = await this.api('team_rules')
+      .where({ 'team_rules.id': ruleId, userIdFk: userId })
+      .join('teams', 'teams.id', 'team_rules.teamIdFk')
+      .select('teams.apiIdFk')
+
+    try {
+      if (rules.length !== 0) {
+        const api = await this.api('api').where({ id: rules[0].apiIdFk })
+        const tags = await this.api('tags').where({ apiIdFk: rules[0].apiIdFk })
+        api[0].tags = tags
+
+        if (api.length === 0) {
+          throw new Error('A api que você está tentando acessar não foi encontrada')
+        } else {
+          return api[0]
+        }
+      } else {
+        throw new Error('A equipe informada foi encontrada ou você não faz parte')
+      }
+    } catch (error) {
+      throw new Error('Erro ao tentar carregar a documentação')
+    }
+  }
+
 }
