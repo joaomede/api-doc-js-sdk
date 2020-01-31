@@ -2,6 +2,18 @@ import { Response } from './response'
 import * as I from '../index'
 import * as _ from 'lodash'
 export class Team extends Response {
+  /**
+   * @description Get all team by User ID
+   * @param userId User ID
+   */
+  public async getAllTeamByUserId (userId: number): Promise<I.Team[]> {
+    try {
+      const teams: I.Team[] = await this.api('teams').select().where({ managerIdFk: userId })
+      return teams
+    } catch (error) {
+      throw new Error('Erro ao tentar localizar todas as equipes')
+    }
+  }
 
   /**
    * @description Delete a team
