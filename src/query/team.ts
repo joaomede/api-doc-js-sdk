@@ -3,6 +3,36 @@ import * as I from '../index'
 import * as _ from 'lodash'
 export class Team extends Response {
   /**
+   * @description Create a new Team
+   * @param userId User ID
+   * @param form Form contains: "teamName" and "apiIdFk"
+   */
+  public async createTeam (userId: number, form: any): Promise<string> {
+    try {
+      const api: I.Api[] = await this.api('api')
+        .where({ id: form.apiIdFk, isPublic: false, userIdFk: userId }).select()
+      const team: I.Team[] = await this.api('teams')
+        .where({ apiIdFk: form.apiIdFk }).select()
+      if (team.length === 0) {
+        if (api.length !== 0) {
+          await this.api('teams').insert({
+            teamName: form.teamName,
+            apiIdFk: form.apiIdFk,
+            managerIdFk: userId
+          })
+          return `O time ${form.teamName} foi criado com sucesso`
+        } else {
+          throw new Error('Api relacionada não existe')
+        }
+      } else {
+        throw new Error('Já existe um time associado a essa Api')
+      }
+    } catch (error) {
+      throw new Error(error.message)
+    }
+  }
+
+  /**
    * @description Update a team
    * @param userId User ID
    * @param teamId Team ID
