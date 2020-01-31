@@ -89,4 +89,25 @@ export class Response extends Path {
       throw new Error('Erro ao tentar atualizar o código resposta')
     }
   }
+
+  /**
+   * @description Delete one Response
+   * @param userId User ID
+   * @param responseId Response ID
+   */
+  public async deleteResponse (userId: number, responseId: number): Promise<void> {
+    if (_.isNil(userId)) {
+      throw new Error('Usuário referência não identificado')
+    }
+
+    if (_.isNil(responseId)) {
+      throw new Error('Resposta referência não identificada')
+    }
+    try {
+      await this.api('responses')
+        .where({ id: responseId, userIdFk: userId }).del()
+    } catch (error) {
+      throw new Error('Erro ao tentar apagar Código resposta')
+    }
+  }
 }
