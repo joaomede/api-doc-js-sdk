@@ -37,4 +37,26 @@ export class Response extends Path {
     }
   }
 
+  /**
+   * @description Get all responses by Path ID and User ID
+   * @param userId User ID
+   * @param pathId Path ID
+   */
+  public async getAllResponsesByPathAndUserId (userId: number, pathId: number): Promise<I.Response[]> {
+    if (_.isNil(userId)) {
+      throw new Error('Usuário referência não identificado')
+    }
+
+    if (_.isNil(pathId)) {
+      throw new Error('Path referência não identificado')
+    }
+
+    try {
+      const responses: I.Response[] = await this.api('responses')
+        .where({ userIdFk: userId, pathsIdFk: pathId }).select()
+      return responses
+    } catch (error) {
+      throw new Error('Erro ao tentar carregar todos os códigos respostas')
+    }
+  }
 }
