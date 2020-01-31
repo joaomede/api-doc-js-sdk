@@ -3,6 +3,33 @@ import * as I from '../index'
 import * as _ from 'lodash'
 export class Team extends Response {
   /**
+   * @description Update a team
+   * @param userId User ID
+   * @param teamId Team ID
+   * @param form Form contains: "teamName"
+   */
+  public async updateTeam (userId: number, teamId: number, form: any): Promise<I.Team> {
+    try {
+      const team = await this.api('teams').select().where({ id: teamId })
+      if (team.length !== 0) {
+        if (team[0].managerIdFk === userId) {
+          await this.api('teams').where({ id: teamId }).update({
+            teamName: form.teamName
+          })
+          const teams: I.Team[] = await this.api('teams').where({ id: teamId, teamName: form.teamName })
+          return teams[0]
+        } else {
+          throw new Error('Você não tem autorização para atualizar o time')
+        }
+      } else {
+        throw new Error('O time informado não foi encontrado')
+      }
+    } catch (error) {
+      throw new Error(error.message)
+    }
+  }
+
+  /**
    * @description Get all team by User ID
    * @param userId User ID
    */
