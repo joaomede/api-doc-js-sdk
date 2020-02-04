@@ -1,6 +1,7 @@
 import { Team } from './team'
 import * as I from '../index'
 import * as knex from 'knex'
+import populate = require('knex-populate')
 
 export default class Public extends Team {
   public async getApiAndTagsPublic (apiId: number): Promise<I.Api> {
@@ -30,7 +31,7 @@ export default class Public extends Team {
    */
   public async getPathAndResponsesPublic (knexInstance: knex<knex>, tagId: number): Promise<I.Path[]> {
     try {
-      const verbAndCodes = await this.populate(knexInstance, 'paths')
+      const verbAndCodes = await populate(knexInstance, 'paths')
         .find({ tagsIdFk: tagId })
         .populate('responses', 'pathsIdFk', 'responses')
         .exec()

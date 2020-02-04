@@ -1,6 +1,7 @@
 import { Auth } from './auth'
 import * as I from '../index'
 import * as knex from 'knex'
+import populate = require('knex-populate')
 
 export class Api extends Auth {
   /**
@@ -134,13 +135,13 @@ export class Api extends Auth {
    */
   public async getPathAndResponses (knexInstance: knex<knex>, tagId: string): Promise<I.Path[]> {
     try {
-      const list: I.Path[] = await this.populate(knexInstance, 'paths')
+      const list: I.Path[] = await populate(knexInstance, 'paths')
         .find({ tagsIdFk: tagId })
         .populate('responses', 'pathsIdFk', 'responses')
         .exec()
       return list
     } catch (error) {
-      throw new Error('Erro ao tentar expandir')
+      throw new Error(error)
     }
   }
 }

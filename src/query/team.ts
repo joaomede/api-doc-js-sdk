@@ -2,6 +2,7 @@ import { Response } from './response'
 import * as I from '../index'
 import * as _ from 'lodash'
 import * as knex from 'knex'
+import populate = require('knex-populate')
 
 export class Team extends Response {
   /**
@@ -214,7 +215,7 @@ export class Team extends Response {
 
     try {
       if (rules.length !== 0) {
-        const verbAndCodes: I.Path[] = await this.populate(knexInstance, 'paths')
+        const verbAndCodes: I.Path[] = await populate(knexInstance, 'paths')
           .find({ tagsIdFk: tagId })
           .populate('responses', 'pathsIdFk', 'responses')
           .exec()

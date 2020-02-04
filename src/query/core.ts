@@ -1,13 +1,11 @@
 import * as knex from 'knex'
 import * as jwt from 'jsonwebtoken'
 import * as path from 'path'
-import populate from 'knex-populate'
 import Knex = require('knex')
 
 export class Core {
   public config: knex.Config
   private secret: string
-  public populate = populate
 
   constructor (config: knex.Config, secret: string) {
     this.config = config
