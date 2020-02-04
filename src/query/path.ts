@@ -35,10 +35,9 @@ export class Path extends Tag {
         tagsIdFk: tagId,
         userIdFk: userId
       }
-      await this.api('paths').insert(newPath)
       const path: I.Path[] = await this.api('paths')
-        .where(newPath)
-        .select('*')
+        .insert(newPath)
+        .returning('*')
 
       return path[0]
     } catch (error) {
