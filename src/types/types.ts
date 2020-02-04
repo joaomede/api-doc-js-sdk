@@ -20,6 +20,7 @@ export interface Api {
   created_at: Date
   updated_at: Date
   userIdFk: number
+  tags: Tag[]
 }
 
 export interface Team {
@@ -47,6 +48,7 @@ export interface Tag {
   updated_at: Date
   apiIdFk: number
   userIdFk: number
+  paths: Path[]
 }
 
 export interface Path {
@@ -63,6 +65,7 @@ export interface Path {
   updated_at: Date
   tagsIdFk: number
   userIdFk: number
+  responses: Response[]
 }
 
 export interface Response {
