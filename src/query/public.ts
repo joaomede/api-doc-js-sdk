@@ -2,7 +2,7 @@ import { Team } from './team'
 import * as I from '../index'
 
 export default class Public extends Team {
-  public async getApiAndTagsPublic (apiId: number): Promise<void> {
+  public async getApiAndTagsPublic (apiId: number): Promise<I.Api> {
     try {
       const api = await this.api('api').where({ id: apiId })
       const tags: I.Tag[] = await this.api('tags').where({ apiIdFk: apiId })
@@ -22,7 +22,7 @@ export default class Public extends Team {
     }
   }
 
-  public async getPathAndResponsesPublic (tagId: number): Promise<void> {
+  public async getPathAndResponsesPublic (tagId: number): Promise<I.Path[]> {
     try {
       const verbAndCodes = await this.populate(this.knex, 'paths')
         .find({ tagsIdFk: tagId })
@@ -39,9 +39,9 @@ export default class Public extends Team {
     }
   }
 
-  public async listAllPublicApi (): Promise<void> {
+  public async listAllPublicApi (): Promise<I.Api[]> {
     try {
-      const allPublicList = await this.api('api')
+      const allPublicList: I.Api[] = await this.api('api')
         .where({ isPublic: true })
         .join('users', 'users.id', 'api.userIdFk')
         .select('api.id', 'api.descriptionApi', 'api.apiName', 'users.name')

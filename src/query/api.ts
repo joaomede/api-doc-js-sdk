@@ -103,30 +103,14 @@ export class Api extends Auth {
   }
 
   /**
-   * @description Get a Path and all Responses related
-   * @param tagId Tag ID
-   */
-  public async getPathAndResponses (tagId: string): Promise<I.Path[]> {
-    try {
-      const list = await this.populate(this.knex, 'paths')
-        .find({ tagsIdFk: tagId })
-        .populate('responses', 'pathsIdFk', 'responses')
-        .exec()
-      return list
-    } catch (error) {
-      throw new Error('Erro ao tentar expandir')
-    }
-  }
-
-  /**
    * @description Get a Api and all Tags related
    * @param userId User ID
    * @param apiId API ID
    */
   public async getApiAndTags (userId: number, apiId: number): Promise<I.Api> {
     try {
-      const api = await this.api('api').where({ id: apiId })
-      const tags = await this.api('tags').where({ apiIdFk: apiId })
+      const api: I.Api[] = await this.api('api').where({ id: apiId })
+      const tags: I.Tag[] = await this.api('tags').where({ apiIdFk: apiId })
       if (api.length === 0) {
         throw new Error('A api que você está tentando acessar não foi encontrada')
       } else {
@@ -139,6 +123,22 @@ export class Api extends Auth {
       }
     } catch (error) {
       throw new Error('Erro ao tentar carregar a documentação')
+    }
+  }
+
+  /**
+   * @description Get a Path and all Responses related
+   * @param tagId Tag ID
+   */
+  public async getPathAndResponses (tagId: string): Promise<I.Path[]> {
+    try {
+      const list: I.Path[] = await this.populate(this.knex, 'paths')
+        .find({ tagsIdFk: tagId })
+        .populate('responses', 'pathsIdFk', 'responses')
+        .exec()
+      return list
+    } catch (error) {
+      throw new Error('Erro ao tentar expandir')
     }
   }
 }
