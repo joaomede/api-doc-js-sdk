@@ -29,10 +29,9 @@ export class Response extends Path {
         userIdFk: userId,
         pathsIdFk: pathId
       }
-      await this.api('responses').insert(newResposne)
       const response: I.Response[] = await this.api('responses')
-        .where(newResposne)
-        .select('*')
+        .insert(newResposne)
+        .returning('*')
 
       return response[0]
     } catch (error) {
