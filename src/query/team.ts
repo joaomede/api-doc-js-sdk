@@ -149,7 +149,7 @@ export class Team extends Response {
    * @param teamIdFk Team ID
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public async listAllMembers (userId: number, teamIdFk: number): Promise<any> {
+  public async listAllMembers (userId: number, teamIdFk: number): Promise<any[]> {
     try {
       const team: I.Team[] = await this.api('teams')
         .where({ id: teamIdFk, managerIdFk: userId }).select()
@@ -157,7 +157,7 @@ export class Team extends Response {
       if (_.isNil(team)) {
         throw new Error('Esse time não existe')
       } else {
-        const listAllMembers = await this.api('team_rules').where({
+        const listAllMembers: any[] = await this.api('team_rules').where({
           teamIdFk: teamIdFk
         }).join('users', 'users.id', 'team_rules.userIdFk').select('users.name', 'team_rules.id')
         return listAllMembers
@@ -172,7 +172,7 @@ export class Team extends Response {
    * @param userId User ID
    * @param ruleId Rule ID
    */
-  public async getApiAndTagsTeam (userId: number, ruleId: number): Promise<I.Api[]> {
+  public async getApiAndTagsTeam (userId: number, ruleId: number): Promise<I.Api> {
     const rules = await this.api('team_rules')
       .where({ 'team_rules.id': ruleId, userIdFk: userId })
       .join('teams', 'teams.id', 'team_rules.teamIdFk')
@@ -180,8 +180,8 @@ export class Team extends Response {
 
     try {
       if (rules.length !== 0) {
-        const api = await this.api('api').where({ id: rules[0].apiIdFk })
-        const tags = await this.api('tags').where({ apiIdFk: rules[0].apiIdFk })
+        const api: I.Api[] = await this.api('api').where({ id: rules[0].apiIdFk })
+        const tags: I.Tag[] = await this.api('tags').where({ apiIdFk: rules[0].apiIdFk })
         api[0].tags = tags
 
         if (api.length === 0) {
@@ -203,7 +203,7 @@ export class Team extends Response {
    * @param tagId Tag ID
    * @param ruleId Rule ID
    */
-  public async getPathAndResponsesTeam (userId: number, tagId: number, ruleId: number): Promise<void> {
+  public async getPathAndResponsesTeam (userId: number, tagId: number, ruleId: number): Promise<I.Path[]> {
     const rules = await this.api('team_rules')
       .where({ 'team_rules.id': ruleId, userIdFk: userId })
       .join('teams', 'teams.id', 'team_rules.teamIdFk')
@@ -211,7 +211,7 @@ export class Team extends Response {
 
     try {
       if (rules.length !== 0) {
-        const verbAndCodes = await this.populate(this.knex, 'paths')
+        const verbAndCodes: I.Path[] = await this.populate(this.knex, 'paths')
           .find({ tagsIdFk: tagId })
           .populate('responses', 'pathsIdFk', 'responses')
           .exec()
@@ -234,9 +234,9 @@ export class Team extends Response {
    * @param userId User ID "Owner"
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public async listTeamsOwner (userId: number): Promise<any> {
+  public async listTeamsOwner (userId: number): Promise<any[]> {
     try {
-      const teamsAmMember = await this.api('team_rules')
+      const teamsAmMember: any[] = await this.api('team_rules')
         .where({ 'team_rules.userIdFk': userId })
         .join('teams', 'teams.id', 'team_rules.teamIdFk')
         .join('api', 'api.id', 'teams.apiIdFk')
