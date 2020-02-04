@@ -1,5 +1,6 @@
 import { Auth } from './auth'
 import * as I from '../index'
+import * as knex from 'knex'
 
 export class Api extends Auth {
   /**
@@ -128,11 +129,12 @@ export class Api extends Auth {
 
   /**
    * @description Get a Path and all Responses related
+   * @param knexInstance Instance Knex
    * @param tagId Tag ID
    */
-  public async getPathAndResponses (tagId: string): Promise<I.Path[]> {
+  public async getPathAndResponses (knexInstance: knex<knex>, tagId: string): Promise<I.Path[]> {
     try {
-      const list: I.Path[] = await this.populate(this.knex, 'paths')
+      const list: I.Path[] = await this.populate(knexInstance, 'paths')
         .find({ tagsIdFk: tagId })
         .populate('responses', 'pathsIdFk', 'responses')
         .exec()

@@ -1,6 +1,8 @@
 import { Response } from './response'
 import * as I from '../index'
 import * as _ from 'lodash'
+import * as knex from 'knex'
+
 export class Team extends Response {
   /**
    * @description Create a new Team
@@ -199,11 +201,12 @@ export class Team extends Response {
 
   /**
    * @description Get Paths with Response - Team Method
+   * @param knexInstance Instance Knex
    * @param userId User ID
    * @param tagId Tag ID
    * @param ruleId Rule ID
    */
-  public async getPathAndResponsesTeam (userId: number, tagId: number, ruleId: number): Promise<I.Path[]> {
+  public async getPathAndResponsesTeam (knexInstance: knex<knex>, userId: number, tagId: number, ruleId: number): Promise<I.Path[]> {
     const rules = await this.api('team_rules')
       .where({ 'team_rules.id': ruleId, userIdFk: userId })
       .join('teams', 'teams.id', 'team_rules.teamIdFk')
@@ -211,7 +214,7 @@ export class Team extends Response {
 
     try {
       if (rules.length !== 0) {
-        const verbAndCodes: I.Path[] = await this.populate(this.knex, 'paths')
+        const verbAndCodes: I.Path[] = await this.populate(knexInstance, 'paths')
           .find({ tagsIdFk: tagId })
           .populate('responses', 'pathsIdFk', 'responses')
           .exec()

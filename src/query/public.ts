@@ -1,5 +1,6 @@
 import { Team } from './team'
 import * as I from '../index'
+import * as knex from 'knex'
 
 export default class Public extends Team {
   public async getApiAndTagsPublic (apiId: number): Promise<I.Api> {
@@ -22,9 +23,14 @@ export default class Public extends Team {
     }
   }
 
-  public async getPathAndResponsesPublic (tagId: number): Promise<I.Path[]> {
+  /**
+   * @description Get Paths with Response - Public Method
+   * @param knexInstance Instance Knex
+   * @param tagId Tag ID
+   */
+  public async getPathAndResponsesPublic (knexInstance: knex<knex>, tagId: number): Promise<I.Path[]> {
     try {
-      const verbAndCodes = await this.populate(this.knex, 'paths')
+      const verbAndCodes = await this.populate(knexInstance, 'paths')
         .find({ tagsIdFk: tagId })
         .populate('responses', 'pathsIdFk', 'responses')
         .exec()
