@@ -30,7 +30,10 @@ export class Response extends Path {
         pathsIdFk: pathId
       }
       await this.api('responses').insert(newResposne)
-      const response: I.Response[] = await this.api('responses').where(newResposne).select()
+      const response: I.Response[] = await this.api('responses')
+        .where(newResposne)
+        .select('*')
+
       return response[0]
     } catch (error) {
       throw new Error('Erro ao tentar criar o código resposta')
@@ -53,7 +56,9 @@ export class Response extends Path {
 
     try {
       const responses: I.Response[] = await this.api('responses')
-        .where({ userIdFk: userId, pathsIdFk: pathId }).select()
+        .where({ userIdFk: userId, pathsIdFk: pathId })
+        .select('*')
+
       return responses
     } catch (error) {
       throw new Error('Erro ao tentar carregar todos os códigos respostas')

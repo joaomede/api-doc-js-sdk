@@ -36,10 +36,13 @@ export class Path extends Tag {
         userIdFk: userId
       }
       await this.api('paths').insert(newPath)
-      const path: I.Path[] = await this.api('paths').where(newPath).select()
+      const path: I.Path[] = await this.api('paths')
+        .where(newPath)
+        .select('*')
+
       return path[0]
     } catch (error) {
-      throw new Error('Erro ao tentar crar novo Path')
+      throw new Error('Erro ao tentar criar novo Path')
     }
   }
 

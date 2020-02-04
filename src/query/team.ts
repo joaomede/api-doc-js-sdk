@@ -14,9 +14,13 @@ export class Team extends Response {
   public async createTeam (userId: number, form: any): Promise<string> {
     try {
       const api: I.Api[] = await this.api('api')
-        .where({ id: form.apiIdFk, isPublic: false, userIdFk: userId }).select()
+        .where({ id: form.apiIdFk, isPublic: false, userIdFk: userId })
+        .select('*')
+
       const team: I.Team[] = await this.api('teams')
-        .where({ apiIdFk: form.apiIdFk }).select()
+        .where({ apiIdFk: form.apiIdFk })
+        .select('*')
+
       if (team.length === 0) {
         if (api.length !== 0) {
           await this.api('teams').insert({
@@ -45,7 +49,10 @@ export class Team extends Response {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async updateTeam (userId: number, teamId: number, form: any): Promise<I.Team> {
     try {
-      const team = await this.api('teams').select().where({ id: teamId })
+      const team = await this.api('teams')
+        .where({ id: teamId })
+        .select('*')
+
       if (team.length !== 0) {
         if (team[0].managerIdFk === userId) {
           await this.api('teams').where({ id: teamId }).update({
@@ -70,7 +77,10 @@ export class Team extends Response {
    */
   public async getAllTeamByUserId (userId: number): Promise<I.Team[]> {
     try {
-      const teams: I.Team[] = await this.api('teams').select().where({ managerIdFk: userId })
+      const teams: I.Team[] = await this.api('teams')
+        .where({ managerIdFk: userId })
+        .select('*')
+
       return teams
     } catch (error) {
       throw new Error('Erro ao tentar localizar todas as equipes')
@@ -98,16 +108,23 @@ export class Team extends Response {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async addMember (userId: number, form: any): Promise<void> {
     try {
-      const team: I.Team[] = await this.api('teams').select().where({
-        id: form.teamIdFk,
-        managerIdFk: userId
-      })
-      const user: I.User[] = await this.api('users').select().where({ email: form.email })
+      const team: I.Team[] = await this.api('teams')
+        .where({
+          id: form.teamIdFk,
+          managerIdFk: userId
+        })
+        .select('*')
 
-      const rules: I.TeamRules[] = await this.api('team_rules').select().where({
-        teamIdFk: form.teamIdFk,
-        userIdFk: user[0].id
-      })
+      const user: I.User[] = await this.api('users')
+        .where({ email: form.email })
+        .select('*')
+
+      const rules: I.TeamRules[] = await this.api('team_rules')
+        .where({
+          teamIdFk: form.teamIdFk,
+          userIdFk: user[0].id
+        })
+        .select('*')
 
       if (_.isNil(team)) {
         throw new Error('O time informado não existe')
@@ -155,7 +172,8 @@ export class Team extends Response {
   public async listAllMembers (userId: number, teamIdFk: number): Promise<any[]> {
     try {
       const team: I.Team[] = await this.api('teams')
-        .where({ id: teamIdFk, managerIdFk: userId }).select()
+        .where({ id: teamIdFk, managerIdFk: userId })
+        .select('*')
 
       if (_.isNil(team)) {
         throw new Error('Esse time não existe')

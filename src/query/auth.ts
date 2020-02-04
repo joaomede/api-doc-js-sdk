@@ -11,7 +11,10 @@ export class Auth extends User {
    */
   public async userAuth (email: string, password: string): Promise<I.User> {
     try {
-      const user: I.User[] = await this.api('users').where({ email: email }).select()
+      const user: I.User[] = await this.api('users')
+        .where({ email: email })
+        .select('*')
+
       if (_.isNil(user)) {
         throw new Error('O usuário não foi encontrado')
       } else {
@@ -37,7 +40,10 @@ export class Auth extends User {
    */
   public async userRegister (nome: string, email: string, password: string): Promise<I.User> {
     try {
-      const result: I.User[] = await this.api('users').where({ email: email }).select()
+      const result: I.User[] = await this.api('users')
+        .where({ email: email })
+        .select('*')
+
       if (_.isNil(result[0])) {
         try {
           const user = await this.registerNewUser(nome, email, password)

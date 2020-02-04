@@ -56,7 +56,10 @@ export class Api extends Auth {
    */
   public async getAllApiByUser (userId: number): Promise<I.Api[]> {
     try {
-      const allApi: I.Api[] = await this.api('api').select().where({ userIdFk: userId })
+      const allApi: I.Api[] = await this.api('api')
+        .where({ userIdFk: userId })
+        .select('*')
+
       return allApi
     } catch (error) {
       throw new Error('Erro ao tentar listar as documentações')
@@ -70,7 +73,10 @@ export class Api extends Auth {
    */
   public async getAllApiByUserAndVisibility (userId: number, isPublic: boolean): Promise<I.Api[]> {
     try {
-      const allApi: I.Api[] = await this.api('api').select().where({ userIdFk: userId, isPublic: isPublic })
+      const allApi: I.Api[] = await this.api('api')
+        .where({ userIdFk: userId, isPublic: isPublic })
+        .select('*')
+
       return allApi
     } catch (error) {
       throw new Error('Erro ao tentar listar as documentações')
@@ -84,7 +90,10 @@ export class Api extends Auth {
    */
   public async getOneApi (userId: number, id: number): Promise<I.Api> {
     try {
-      const api = await this.api('api').select().where({ id: id, userIdFk: userId })
+      const api = await this.api('api')
+        .where({ id: id, userIdFk: userId })
+        .select('*')
+
       return api[0]
     } catch (error) {
       throw new Error('Erro ao tentar carregar as informações da api')
