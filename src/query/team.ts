@@ -92,7 +92,7 @@ export class Team extends Response {
    * @param userId User ID "owner"
    * @param teamId Team ID
    */
-  public async deleteTeam (userId: number, teamId: number): Promise<void> {
+  public async deleteTeamById (userId: number, teamId: number): Promise<void> {
     try {
       await this.api('teams').where({ id: teamId, managerIdFk: userId }).del()
     } catch (error) {
@@ -106,7 +106,7 @@ export class Team extends Response {
    * @param form Form contains: "teamIdFk" and "email"
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public async addMember (userId: number, form: any): Promise<void> {
+  public async addNewMember (userId: number, form: any): Promise<void> {
     try {
       const team: I.Team[] = await this.api('teams')
         .where({
@@ -134,11 +134,11 @@ export class Team extends Response {
         throw new Error('O email informado não pertence a nenhum usuário')
       }
 
-      if (user[0].id !== userId) {
+      if (user[0].id === userId) {
         throw new Error('Não é permitido adicionar você mesmo')
       }
 
-      if (!_.isNil(rules)) {
+      if (rules.length === 1) {
         throw new Error('Esse usuário já está no time')
       }
 
@@ -147,7 +147,7 @@ export class Team extends Response {
         userIdFk: user[0].id
       })
     } catch (error) {
-      throw new Error(error.message)
+      throw new Error(error)
     }
   }
 
@@ -155,7 +155,7 @@ export class Team extends Response {
    * @description Remove a member from team
    * @param rulesId Rules ID
    */
-  public async removeMember (rulesId: number): Promise<void> {
+  public async deleteMemberById (rulesId: number): Promise<void> {
     try {
       await this.api('team_rules').where({ id: rulesId }).del()
     } catch (error) {
@@ -169,7 +169,7 @@ export class Team extends Response {
    * @param teamIdFk Team ID
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public async listAllMembers (userId: number, teamIdFk: number): Promise<any[]> {
+  public async getAllMembersByTeamId (userId: number, teamIdFk: number): Promise<any[]> {
     try {
       const team: I.Team[] = await this.api('teams')
         .where({ id: teamIdFk, managerIdFk: userId })

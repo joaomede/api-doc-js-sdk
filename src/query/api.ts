@@ -32,7 +32,7 @@ export class Api extends Auth {
    * @param id Api ID
    * @param newApi Api update form
    */
-  public async updateApi (userId: number, id: number, newApi: I.Api): Promise<void> {
+  public async updateApiById (userId: number, id: number, newApi: I.Api): Promise<void> {
     try {
       const api = {
         apiName: newApi.apiName,
@@ -105,7 +105,7 @@ export class Api extends Auth {
    * @param userId User ID
    * @param id Api ID
    */
-  public async deleteApi (userId: number, id: number): Promise<void> {
+  public async deleteApiById (userId: number, id: number): Promise<void> {
     try {
       await this.api('api').where({ id: id, userIdFk: userId }).del()
     } catch (error) {

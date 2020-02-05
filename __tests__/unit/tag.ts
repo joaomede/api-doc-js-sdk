@@ -20,7 +20,7 @@ export const tagTest = () => describe('Tag Test', () => {
         nameTag: 'Tag Test',
         descriptionTag: 'Tag about test'
       }
-      await apiDoc.updateTag(1, 1, newTag)
+      await apiDoc.updateTagById(1, 1, newTag)
       done()
     } catch (error) {
       done(error)
@@ -29,7 +29,7 @@ export const tagTest = () => describe('Tag Test', () => {
 
   test('Find all tag by User ID and Api ID', async (done) => {
     try {
-      await apiDoc.findAllTagByUserIdAndApiId(1, 1)
+      await apiDoc.getAllTagById(1, 1)
       done()
     } catch (error) {
       done(error)

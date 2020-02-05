@@ -10,7 +10,7 @@ export class Path extends Tag {
    * @param form Form contain fields: methodType, pathName, descriptionVerb, path, parameter,
    * headersValue, bodyValue and data
    */
-  public async createPath (userId: number, tagId: number, form: any): Promise<I.Path> {
+  public async createNewPath (userId: number, tagId: number, form: any): Promise<I.Path> {
     if (_.isNil(tagId)) {
       throw new Error('Não foi identificado o path referência')
     }
@@ -93,7 +93,7 @@ export class Path extends Tag {
    * @param userId User ID
    * @param pathId Path ID
    */
-  public async deletePath (userId: number, pathId: number): Promise<void> {
+  public async deletePathById (userId: number, pathId: number): Promise<void> {
     if (_.isNil(pathId)) {
       throw new Error('Não foi identificado a referência do Path')
     }

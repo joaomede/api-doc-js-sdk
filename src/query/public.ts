@@ -46,7 +46,7 @@ export default class Public extends Team {
     }
   }
 
-  public async listAllPublicApi (): Promise<I.Api[]> {
+  public async getAllPublicApi (): Promise<I.Api[]> {
     try {
       const allPublicList: I.Api[] = await this.api('api')
         .where({ isPublic: true })

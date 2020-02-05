@@ -30,7 +30,7 @@ export class Tag extends Api {
    * @param tagId Tag ID
    * @param form Form with "nameTag" and "descriptionTag"
    */
-  public async updateTag (userId: number, tagId: number, form: any): Promise<void> {
+  public async updateTagById (userId: number, tagId: number, form: any): Promise<void> {
     try {
       const newEndpoint = {
         nameTag: form.nameTag,
@@ -47,7 +47,7 @@ export class Tag extends Api {
    * @param userId User ID
    * @param apiId Api ID
    */
-  public async findAllTagByUserIdAndApiId (userId: number, apiId: number): Promise<I.Tag[]> {
+  public async getAllTagById (userId: number, apiId: number): Promise<I.Tag[]> {
     try {
       const tags: I.Tag[] = await this.api('tags').where({ userIdFk: userId, apiIdFk: apiId })
       return tags

@@ -17,7 +17,7 @@ export const pathTest = () => describe('Path Test', () => {
   //       bodyValue: { teste: '' },
   //       data: { teste: '' },
   //     }
-  //     await apiDoc.createPath(1, 1, path)
+  //     await apiDoc.createNewPath(1, 1, path)
   //     done()
   //   } catch (error) {
   //     done(error)

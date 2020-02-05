@@ -99,7 +99,7 @@ export class Response extends Path {
    * @param userId User ID
    * @param responseId Response ID
    */
-  public async deleteResponse (userId: number, responseId: number): Promise<void> {
+  public async deleteResponseById (userId: number, responseId: number): Promise<void> {
     if (_.isNil(userId)) {
       throw new Error('Usuário referência não identificado')
     }

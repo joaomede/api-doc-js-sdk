@@ -41,7 +41,7 @@ export const apiTest = () => describe('Api test', () => {
         updated_at: new Date(), // not-required
         userIdFk: 1, // not-required
       }
-      await apiDoc.updateApi(1, 1, updateForm)
+      await apiDoc.updateApiById(1, 1, updateForm)
       done()
     } catch (error) {
       done(error)
@@ -79,7 +79,7 @@ export const apiTest = () => describe('Api test', () => {
 
   test('Get Delete One Api Document', async (done) => {
     try {
-      await apiDoc.deleteApi(1, 2) // delete a private example test
+      await apiDoc.deleteApiById(1, 2) // delete a private example test
       done()
     } catch (error) {
       done(error)
