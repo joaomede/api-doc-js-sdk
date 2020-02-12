@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.com/joaomede/api-doc-js-sdk.svg?branch=master)](https://travis-ci.com/joaomede/api-doc-js-sdk)
+[![Build Status](https://travis-ci.com/joaomede/api-doc-js-sdk.svg?branch=master)](https://travis-ci.com/joaomede/api-doc-js-sdk) [![codecov](https://codecov.io/gh/joaomede/api-doc-js-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/joaomede/api-doc-js-sdk)
+
 
 
 # Api Doc - JS SDK
