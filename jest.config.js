@@ -11,6 +11,7 @@ module.exports = {
     '<rootDir>/test/helpers/',
     '<rootDir>/node_modules/'
   ],
+  collectCoverage: true,
   clearMocks: true,
   preset: 'ts-jest'
 }
