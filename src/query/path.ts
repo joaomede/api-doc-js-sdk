@@ -29,6 +29,7 @@ export class Path extends Tag {
         descriptionVerb: form.descriptionVerb,
         path: form.path,
         parameter: form.parameter,
+        query: form.query,
         headersValue: form.headersValue,
         bodyValue: form.bodyValue,
         data: form.data,
@@ -76,6 +77,7 @@ export class Path extends Tag {
       descriptionVerb: form.descriptionVerb,
       path: form.path,
       parameter: form.parameter,
+      query: form.query,
       headersValue: form.headersValue,
       bodyValue: form.bodyValue,
       data: form.data
