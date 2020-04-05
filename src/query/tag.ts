@@ -16,8 +16,7 @@ export class Tag extends Api {
         apiIdFk: apiId,
         userIdFk: userId
       }
-      await this.api('tags').insert(newEndPoint)
-      const tag = await this.api('tags').where(newEndPoint)
+      const tag = await this.api('tags').insert(newEndPoint).returning('*')
       return tag[0]
     } catch (error) {
       throw new Error('Erro ao tentar criar Tag')
