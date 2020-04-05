@@ -1,6 +1,6 @@
 {
   "name": "api-doc-js-sdk",
-  "version": "2.1.3",
+  "version": "2.1.4",
   "description": "SDK for Api Doc development",
   "main": "./lib/index.js",
   "scripts": {
