@@ -68,11 +68,14 @@
 				<a href="#api-doc---js-sdk" id="api-doc---js-sdk" style="color: inherit; text-decoration: none;">
 					<h1>Api Doc - JS SDK</h1>
 				</a>
-				<p>Official repository of the SDK used in the &quot;<a href="https://github.com/Api-Doc">Api Doc</a>&quot; project, this SDK consists of an abstraction of the Api-Doc rules, it contains Knex as a base, and has migration encapsulated within itself, with that, the user will be free to be an independent project from Expressjs, which is the base where the official Api Rest was built</p>
+				<p>Official repository of the SDK used in the &quot;<a href="https://github.com/joaomede/Api-Doc">Api Doc</a>&quot; project, this SDK consists of an abstraction of the Api-Doc rules, it contains Knex as a base, and has migration encapsulated within itself, with that, the user will be free to be an independent project from Expressjs, which is the base where the official Api Rest was built</p>
 				<a href="#rule-permission-der" id="rule-permission-der" style="color: inherit; text-decoration: none;">
 					<h2>Rule-Permission DER</h2>
 				</a>
-				<p><img src="/ducumentation/Rule-Permissions.png" alt="Rule-Permission">  </p>
+				<p><img src="./documentation/Rule-Permissions.png" alt="Rule-Permission"></p>
+				<a href="#see-full-a-hrefhttpsjoaomedegithubioapi-doc-js-sdkdocumentationa" id="see-full-a-hrefhttpsjoaomedegithubioapi-doc-js-sdkdocumentationa" style="color: inherit; text-decoration: none;">
+					<h3>See Full <a href="https://joaomede.github.io/api-doc-js-sdk/">Documentation</a></h3>
+				</a>
 				<a href="#install" id="install" style="color: inherit; text-decoration: none;">
 					<h2>Install</h2>
 				</a>
@@ -83,48 +86,51 @@ $ yarn add install api-doc-js-sdk</code></pre>
 					<h2>Setup</h2>
 				</a>
 				<p>The &quot;Api Doc - SDK&quot; uses the knex as a base, so the whole mechanism behind it is based on knex, including its settings format.</p>
-				<pre><code class="language-javascript"><span class="hljs-keyword">import</span> ApiDoc <span class="hljs-keyword">from</span> <span class="hljs-string">'api-doc-js-doc'</span>
+				<pre><code class="language-javascript"><span class="hljs-keyword">import</span> ApiDoc <span class="hljs-keyword">from</span> <span class="hljs-string">"api-doc-js-doc"</span>;
 
 <span class="hljs-keyword">const</span> config = {
   <span class="hljs-attr">dev</span>: {
-    <span class="hljs-attr">client</span>: <span class="hljs-string">'pg'</span>,
+    <span class="hljs-attr">client</span>: <span class="hljs-string">"pg"</span>,
     <span class="hljs-attr">connection</span>: {
       <span class="hljs-attr">port</span>: process.env.PORTDB,
       <span class="hljs-attr">host</span>: process.env.HOSTDB,
       <span class="hljs-attr">user</span>: process.env.POSTGRES_USER,
       <span class="hljs-attr">password</span>: process.env.POSTGRES_PASSWORD,
-      <span class="hljs-attr">database</span>: process.env.POSTGRES_DB
+      <span class="hljs-attr">database</span>: process.env.POSTGRES_DB,
     },
-    <span class="hljs-attr">pool</span>: { <span class="hljs-attr">min</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">max</span>: <span class="hljs-number">10</span>, <span class="hljs-attr">idleTimeoutMillis</span>: <span class="hljs-number">500</span> }
-  }
-}
+    <span class="hljs-attr">pool</span>: { <span class="hljs-attr">min</span>: <span class="hljs-number">0</span>, <span class="hljs-attr">max</span>: <span class="hljs-number">10</span>, <span class="hljs-attr">idleTimeoutMillis</span>: <span class="hljs-number">500</span> },
+  },
+};
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">new</span> ApiDoc(config.dev, <span class="hljs-string">'TheApiSecretKey'</span>)</code></pre>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">new</span> ApiDoc(config.dev, <span class="hljs-string">"TheApiSecretKey"</span>);</code></pre>
 				<a href="#import-the-instance-and-use-it" id="import-the-instance-and-use-it" style="color: inherit; text-decoration: none;">
 					<h2>Import the Instance and Use It</h2>
 				</a>
-				<pre><code class="language-javascript"><span class="hljs-keyword">import</span> apiDoc <span class="hljs-keyword">from</span> <span class="hljs-string">'../config/api'</span>
+				<pre><code class="language-javascript"><span class="hljs-keyword">import</span> apiDoc <span class="hljs-keyword">from</span> <span class="hljs-string">"../config/api"</span>;
 
-<span class="hljs-keyword">const</span> name = <span class="hljs-string">'name'</span>
-<span class="hljs-keyword">const</span> email = <span class="hljs-string">'email@teste.com'</span>
-<span class="hljs-keyword">const</span> password = <span class="hljs-string">'passwordTest'</span>
+<span class="hljs-keyword">const</span> name = <span class="hljs-string">"name"</span>;
+<span class="hljs-keyword">const</span> email = <span class="hljs-string">"email@teste.com"</span>;
+<span class="hljs-keyword">const</span> password = <span class="hljs-string">"passwordTest"</span>;
 
-<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">newUserAsyncAwait</span> (<span class="hljs-params"></span>) </span>{
+<span class="hljs-comment">// Async Await / Try Catch</span>
+<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">newUserAsyncAwait</span>(<span class="hljs-params"></span>) </span>{
   <span class="hljs-keyword">try</span> {
-    <span class="hljs-keyword">const</span> user = <span class="hljs-keyword">await</span> apiDoc.userRegister(name, email, password)
-    <span class="hljs-built_in">console</span>.log(user) <span class="hljs-comment">// return new user</span>
+    <span class="hljs-keyword">const</span> user = <span class="hljs-keyword">await</span> apiDoc.userRegister(name, email, password);
+    <span class="hljs-built_in">console</span>.log(user); <span class="hljs-comment">// return new user</span>
   } <span class="hljs-keyword">catch</span> (error) {
-    <span class="hljs-built_in">console</span>.log(error.message) <span class="hljs-comment">// return an eventual error </span>
+    <span class="hljs-built_in">console</span>.log(error.message); <span class="hljs-comment">// return an eventual error</span>
   }
 }
 
-<span class="hljs-keyword">async</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">newUserThenCatch</span> (<span class="hljs-params"></span>) </span>{
-  apiDoc.userRegister(name, email, password).then(<span class="hljs-function">(<span class="hljs-params">newUser</span>) =&gt;</span> {
-    <span class="hljs-built_in">console</span>.log(newUser) <span class="hljs-comment">// return new user</span>
-  }).catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
-    <span class="hljs-built_in">console</span>.log(err) <span class="hljs-comment">// return an eventual error </span>
+<span class="hljs-comment">// Then Catch</span>
+apiDoc
+  .userRegister(name, email, password)
+  .then(<span class="hljs-function">(<span class="hljs-params">newUser</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(newUser); <span class="hljs-comment">// return new user</span>
   })
-}</code></pre>
+  .catch(<span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(err); <span class="hljs-comment">// return an eventual error</span>
+  });</code></pre>
 				<a href="#what-other-methods-can-i-use" id="what-other-methods-can-i-use" style="color: inherit; text-decoration: none;">
 					<h2>What other methods can I use?</h2>
 				</a>
