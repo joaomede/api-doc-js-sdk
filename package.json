@@ -7,6 +7,7 @@
     "test": "rimraf mydb.sqlite && yarn build && jest --runInBand",
     "dev": "nodemon src/index.ts",
     "build": "rimraf lib/ && tsc",
+    "build:doc": "typedoc --out docs && cp documentation/_config.yml docs/",
     "prepare": "npm run build",
     "version": "git add -A ./",
     "postversion": "git push && git push --tags"
