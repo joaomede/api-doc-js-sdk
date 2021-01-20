@@ -33,7 +33,7 @@
     "lodash": "^4.17.20",
     "moment": "^2.29.1",
     "pg": "^8.4.2",
-    "sqlite3": "^5.0.0"
+    "sqlite3": "^5.0.1"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
