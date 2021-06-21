@@ -30,7 +30,7 @@
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.8",
     "knex-populate": "^2.1.2",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "pg": "^8.4.2",
     "sqlite3": "^5.0.1"
