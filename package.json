@@ -28,7 +28,7 @@
   "dependencies": {
     "bcrypt": "^5.0.0",
     "jsonwebtoken": "^9.0.0",
-    "knex": "^0.21.8",
+    "knex": "^2.4.0",
     "knex-populate": "^2.1.2",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
